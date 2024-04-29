@@ -261,43 +261,33 @@ def draw_ridges_count_on_region(region, input_image, thin_image, block_size):
 
 
 def count_fingerprint_ridges(image):
-    
-    # remove white stop from the bottom
-    images = []
-
     print(image.shape)
-    # cropped_img = image[:-32, :]
-    mask, normalized_img = normalize_and_segment(image)
-
-    cv2.imwrite('normalized_image.png', normalized_img)
+    cropped_img = image[:-32, :]
+    mask, normalized_img = normalize_and_segment(cropped_img)
 
     orientation = lines_orientation(normalized_img)
 
     frequency = calculate_ridge_frequencies(normalized_img, orientation, mask)
 
     enhanced_image = apply_gabor_filter(normalized_img, frequency, orientation)
-    cv2.imwrite('enhanced_image.png', enhanced_image)
 
     thin_image = skeletonize(enhanced_image)
-    cv2.imwrite('skeletonize_image.png', thin_image)
     
     minutiae_weights_image = calculate_minutiae_weights(thin_image)
 
     block_size = 15  # 120/8
     best_region = get_best_region(thin_image, minutiae_weights_image, block_size, mask)
     result_image = draw_ridges_count_on_region(best_region, image, thin_image, block_size)
-    return result_image
+    return [enhanced_image, thin_image, result_image]
 
 
-if __name__ == '__main__':
-    path = os.getcwd() + '/all_png_files'
-    img_name = "M89_f0115_03.png"
-    img_path = f'{path}/{img_name}'
-    image = cv2.imread(img_path, 0)
-    image = image[:-32, :]
-    output_image = count_fingerprint_ridges(image)
-
-
+# if __name__ == '__main__':
+    # path = os.getcwd() + '/all_png_files'
+    # img_name = "M89_f0115_03.png"
+    # img_path = f'{path}/{img_name}'
+    # image = cv2.imread(img_path, 0)
+    # image = image[:-32, :]
+    # output_images = count_fingerprint_ridges(image)
 
     # input_path = './all_png_files/'
     # output_path = './all_png_files_out/'

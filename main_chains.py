@@ -74,13 +74,13 @@ class BestRegionHandler(ImageProcessingHandler):
         images.insert(0, result_image)
         return images
 
-block_size = 16
-path = os.getcwd() + '/all_png_files'
-img_name = "M89_f0115_03.png"
-img_path = f'{path}/{img_name}'
-image = cv2.imread(img_path, 0)
-cv2.imshow(img_name, image)
-cv2.waitKey()
+# block_size = 16
+# path = os.getcwd() + '/all_png_files'
+# img_name = "M89_f0115_03.png"
+# img_path = f'{path}/{img_name}'
+# image = cv2.imread(img_path, 0)
+# cv2.imshow(img_name, image)
+# cv2.waitKey()
 
 # Chains Definition
 best_region_handler = BestRegionHandler()
@@ -92,9 +92,9 @@ segmentation_handler = SegmentationHandler(orientation_handler)
 normalization_handler = NormalizationHandler(segmentation_handler)
 
 # Getting images sequence
-images = normalization_handler.process((image, block_size))
-images.pop(1)
-images.pop(-3)
-labels = ['result', 'skeleton', 'gabor', 'orientation', 'segmented', 'normalized', 'original']
-for step, (img, name) in enumerate(zip(images[::-1], labels[::-1])):
-    cv2.imwrite(f'chain_{name}_step{step}.png', img)
+# images = normalization_handler.process((image, block_size))
+# images.pop(1)
+# images.pop(-3)
+# labels = ['result', 'skeleton', 'gabor', 'orientation', 'segmented', 'normalized', 'original']
+# for step, (img, name) in enumerate(zip(images[::-1], labels[::-1])):
+#     cv2.imwrite(f'chain_{name}_step{step}.png', img)
